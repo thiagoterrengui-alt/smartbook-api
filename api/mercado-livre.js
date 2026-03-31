@@ -22,7 +22,7 @@ export default async function handler(req, res) {
     const tokenData = await tokenRes.json()
     const accessToken = tokenData.access_token
 
-    const url = `https://api.mercadolibre.com/sites/MLB/search?q=${encodeURIComponent(q)}&limit=${limit}&category=MLB1459`
+    const url = `https://api.mercadolibre.com/sites/MLB/search?q=${encodeURIComponent(q)}&limit=${limit}`
     const response = await fetch(url, {
       headers: { Authorization: `Bearer ${accessToken}` }
     })

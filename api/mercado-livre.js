@@ -9,28 +9,13 @@ export default async function handler(req, res) {
   }
 
   try {
-    const tokenRes = await fetch('https://api.mercadolibre.com/oauth/token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({
-        grant_type: 'authorization_code',
-        client_id: '7787620594905398',
-        client_secret: 'TZ5mFcrm1rHCFuAWCvO52P84cLXAoIXg',
-        code: 'TG-69cc2fee84cf050001a2e071-67181455',
-        redirect_uri: 'https://smartbook-api.vercel.app'
-      })
-    })
-
-    const tokenData = await tokenRes.json()
-    const accessToken = tokenData.access_token
-
-    if (!accessToken) {
-      return res.status(500).json({ error: 'Token não gerado', details: tokenData })
-    }
-
-    const url = `https://api.mercadolibre.com/sites/MLB/search?q=${encodeURIComponent(q)}&limit=${limit}`
+    const url = `https://mercado-libre-api.p.rapidapi.com/product/search?keyword=${encodeURIComponent(q)}&country_code=br&page=1`
     const response = await fetch(url, {
-      headers: { Authorization: `Bearer ${accessToken}` }
+      headers: {
+        'Content-Type': 'application/json',
+        'x-rapidapi-host': 'mercado-libre-api.p.rapidapi.com',
+        'x-rapidapi-key': 'bc678b9c28msh96a56790fbe1affp1bc08djsn78e468af3aa0'
+      }
     })
     const data = await response.json()
     res.status(200).json(data)
